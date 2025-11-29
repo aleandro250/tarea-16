@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desplegable Personalizado - Proyecto 16</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .description {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .demo-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .demo-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #444;
+            text-align: center;
+        }
+
+        .dropdown-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .dropdown-header {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .dropdown-header:hover {
+            background-color: #e9ecef;
+            border-color: #6c757d;
+        }
+
+        .dropdown-header.open {
+            border-radius: 8px 8px 0 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .dropdown-header::after {
+            content: '\25BC';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-header.open::after {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            border: 2px solid #e9ecef;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-list.open {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .dropdown-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f1f3f4;
+        }
+
+        .dropdown-item.selected {
+            background-color: #e7f1ff;
+            color: #0066cc;
+            font-weight: 500;
+        }
+
+        .instructions {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .instructions h2 {
+            color: #444;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .instructions ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .demo-container, .instructions {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Desplegable Personalizado</h1>
+            <p class="description">Un componente interactivo creado con HTML, CSS y JavaScript que permite seleccionar opciones de una lista desplegable.</p>
+        </header>
+
+        <div class="demo-container">
+            <h2 class="demo-title">Prueba el Desplegable</h2>
+            <div class="dropdown-container">
+                <div class="dropdown-header" id="dropdownHeader">
+                    Selecciona un elemento
+                </div>
+                <div class="dropdown-list" id="dropdownList">
+                    <div class="dropdown-item" data-value="first">Primer Elemento</div>
+                    <div class="dropdown-item" data-value="second">Segundo Elemento</div>
+                    <div class="dropdown-item" data-value="third">Tercer Elemento</div>
+                    <div class="dropdown-item" data-value="fourth">Cuarto Elemento</div>
+                    <div class="dropdown-item" data-value="fifth">Quinto Elemento</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h2>Instrucciones de Uso</h2>
+            <ul>
+                <li>Haz clic en el campo del desplegable para abrir la lista de opciones.</li>
+                <li>Selecciona una opción haciendo clic en ella.</li>
+                <li>La opción seleccionada se mostrará en el campo principal.</li>
+                <li>Puedes volver a abrir el desplegable para cambiar tu selección.</li>
+            </ul>
+            <p>Este proyecto demuestra el manejo del DOM, control de eventos y creación de elementos interactivos con JavaScript.</p>
+        </div>
+
+        <footer>
+            <p>Proyecto 16 - Desplegable Personalizado</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownHeader = document.getElementById('dropdownHeader');
+            const dropdownList = document.getElementById('dropdownList');
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+            
+            // Alternar la visibilidad del desplegable
+            dropdownHeader.addEventListener('click', function() {
+                dropdownList.classList.toggle('open');
+                dropdownHeader.classList.toggle('open');
+            });
+            
+            // Manejar la selección de elementos
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Actualizar el texto del encabezado
+                    dropdownHeader.textContent = this.textContent;
+                    
+                    // Remover la clase 'selected' de todos los elementos
+                    dropdownItems.forEach(i => i.classList.remove('selected'));
+                    
+                    // Agregar la clase 'selected' al elemento clickeado
+                    this.classList.add('selected');
+                    
+                    // Cerrar el desplegable
+                    dropdownList.classList.remove('open');
+                    dropdownHeader.classList.remove('open');
+                    
+                    // Aquí puedes agregar lógica adicional basada en el valor seleccionado
+                    console.log('Elemento seleccionado:', this.getAttribute('data-value'));
+                });
+            });
+            
+            // Cerrar el desplegable al hacer clic fuera de él
+            document.addEventListener('click', function(event) {
+                if (!dropdownHeader.contains(event.target) && !dropdownList.contains(event.target)) {
+                    dropdownList.classList.remove('open');
+                    dropdownHeader.classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
